@@ -1,0 +1,23 @@
+﻿@model URLShort.Models.URLViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Back to Long</h1>
+<div class="row">
+    <section>
+        <form id="shorten" method="post">
+            <h4>Please enter the URL you have previously shortened.</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ShortenedURL"></label>
+                <input asp-for="ShortenedURL" class="form-control" />
+                <span asp-validation-for="ShortenedURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Get Origianl URL</button>
+            </div>
+        </form>
+    </section>
+</div>
