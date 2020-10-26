@@ -60,54 +60,5 @@ namespace URLShort.Controllers
             }
             return View(new UserViewModel());
         }
-        /*
-        // 
-        // GET: /User/
-
-        public string Index()
-        {
-            return "This is my default action...";
-        }
-
-        // 
-        // GET: /User/Welcome/ 
-
-        public IActionResult Login(string userName, string passWord)
-        {
-            UserViewModel user = null;
-
-            using (var client = new HttpClient())
-            {
-
-                client.BaseAddress = new Uri("https://localhost:5001");
-                //HTTP GET
-                var responseTask = client.GetAsync("User?userName=Zachary&passWord=Young");
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<UserViewModel>();
-                    readTask.Wait();
-
-                    user = readTask.Result;
-                }
-                else //web api sent error response 
-                {
-                    //log response status here..
-
-                    user = Empty<UserViewModel>();
-
-                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                }
-            }
-            return View();
-        }
-
-        private T Empty<T>()
-        {
-            throw new NotImplementedException();
-        }
-        */
     }
 }
