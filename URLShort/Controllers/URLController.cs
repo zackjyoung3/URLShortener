@@ -12,14 +12,6 @@ namespace URLShort.Controllers
 {
     public class URLController : Controller
     {
-        /*
-        [HttpGet]
-        public IActionResult Index(Guid test)
-        {
-            URLViewModel shortenView = new URLViewModel();
-
-            return View(shortenView);
-        }*/
 
         [HttpGet]
         public IActionResult Index(UserViewModel user)
@@ -198,45 +190,3 @@ namespace URLShort.Controllers
         }
     }
 }
-        /*
-        [HttpPost]
-        public IActionResult Index(string username, string password)
-        {
-            URLViewModel url = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://localhost:5001");
-                //HTTP GET
-                var responseTask = client.GetAsync($"URL?username={username}");
-                responseTask.Wait();
-
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<UserViewModel>();
-                    readTask.Wait();
-
-                    user = readTask.Result;
-
-                    //if user is valid, redirect
-                    if (user != null)
-                    {
-                        return RedirectToAction("Index", "Url");
-                    }
-                }
-                else //web api sent error response 
-                {
-                    //log response status here..
-
-                    user = new UserViewModel();
-
-                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                }
-            }
-            return View(new UserViewModel());
-        }
-        
-    }
-}
-        */
