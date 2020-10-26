@@ -12,13 +12,16 @@ namespace URLShort.Controllers
 {
     public class URLController : Controller
     {
-
+        //method that will be invoked after the user successfully logs in
+        //the user's model will be passed as a parameter and a get will be employed to generate the information for a given user
         [HttpGet]
         public IActionResult Index(UserViewModel user)
         {
+            //creating a list of urls that will be populated with the urls of a given user
             List<URLViewModel> urls = null;
             int key = user.ID;
-
+            
+            //getting the data by invoking the web service
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:5001");
@@ -53,7 +56,8 @@ namespace URLShort.Controllers
             }
             return View(new URLViewModel());
         }
-
+        
+        //post method that takes a long URL, shortens it and then adds it to the database
         [HttpPost]
         public IActionResult Index(string LongURL)
         {
@@ -61,7 +65,11 @@ namespace URLShort.Controllers
             URLViewModel OriginalUrl = null;
             URLViewModel newURL = new URLViewModel();
             newURL.LongURL = LongURL;
-
+            
+            /*for the method of how to truncate the URLS, I thought about just taking off the slash that would
+              come after the .com and replacing it with a GUID, but though that would be too long and considered an alternative 
+              route of simply generating a random number of at maximum 6 digits to be displayed after
+              the .com/net/etc*/
             int cutOff;
             string beforeGuid;
             if (LongURL.IndexOf(".com") != -1)
@@ -96,16 +104,15 @@ namespace URLShort.Controllers
             int randomEnd = random.Next(0, 100000);
             string finalURL = beforeGuid + "/" + randomEnd;
             newURL.ShortenedURL = finalURL;
-
+            
+            //after the url had been shortened, then had to use the web service to write the data to the db
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("https://localhost:5001");
                 //HTTP Post
                 var toSend = newURL;
-                //var responseTask = client.PostAsync($"shortener", new { longurl = newURL.LongURL, shorturl = newURL.ShortenedURL });
                  var responseTask = client.PostAsync($"Shortener?longurl={newURL.LongURL}&shorturl={newURL.ShortenedURL}", null);
-                //HttpResponseMessage response = client.PostAsync(String.Format("api/OrganizationGroup/UpdateFailureTypeCO?failureTypeId={0}&checkedList={1}", failureTypeId, cs)).Result;
-                responseTask.Wait();
+                 responseTask.Wait();
 
                 var result = responseTask.Result;
                 if (result.IsSuccessStatusCode)
@@ -138,6 +145,7 @@ namespace URLShort.Controllers
         }
 
 
+        //returns the view for a user on the page for converting the short back to original URL
         [HttpGet]
         public IActionResult Long(int ID)
         {
@@ -147,6 +155,7 @@ namespace URLShort.Controllers
             return View(shortenView);
         }
 
+        //Post method that uses the web service to locate the original url based off the shortened url input
         [HttpPost]
         public IActionResult Long(string ShortenedURL)
         {
@@ -168,7 +177,7 @@ namespace URLShort.Controllers
 
                     OriginalUrl = readTask.Result;
 
-                    //if user is valid, redirect
+                    //if url is valid
                     if (OriginalUrl != null)
                     {
                         ViewBag.Original = OriginalUrl.LongURL;
