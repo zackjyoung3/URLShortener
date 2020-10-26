@@ -23,6 +23,7 @@ namespace URLShort.Controllers
             return View(loginView);
         }
 
+        //Post method that uses the web service to retrieve a given user based off of their username and password
         [HttpPost]
         public IActionResult Index(string username, string password)
         {
