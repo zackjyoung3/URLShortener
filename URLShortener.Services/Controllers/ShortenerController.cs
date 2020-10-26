@@ -12,6 +12,8 @@ namespace URLShortener.Services.Controllers
     [Route("[controller]")]
     public class ShortenerController : Controller
     {
+        //method that is specifically invoked when a user inputs a new URL to be shortened that results in a call to this web service
+        //with the shortened and original urls
         [HttpPost]
         public ActionResult<URL> Set(string longurl, string shorturl)
         {
