@@ -11,7 +11,7 @@ namespace URLShortener.Services.Controllers
     [Route("[controller]")]
     public class LongController : Controller
     {
-        //method and controller that are specifically invoked for the retrieval of an original, long url from a shortened input
+        //method and controller that are specifically invoked for the retrieval of an original, long url from a shortened URL input
         [HttpGet]
         public ActionResult<URL> Get(string shortenedurl)
         {
